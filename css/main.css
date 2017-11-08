@@ -1,0 +1,15 @@
+.main-container {
+	border-radius: 20px;
+	max-width: 800px;
+}
+
+.price-bar {
+	background-color: rgba(255, 187, 51, .5);
+	visibility: hidden;
+	transition: visibility 1s;
+}
+
+
+.badge {
+	font-size: .5em;
+}

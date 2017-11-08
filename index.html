@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en-us">
+	<head>
+		<meta charset="utf-8">
+		<title>Peet's Pizza</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+		<link rel="stylesheet" href="css/main.css" /><link rel="stylesheet" href="css/main.css" />
+		
+	</head>
+	<body class="bg-secondary">
+		<!--
+		MODAL FOR INVOICE DISPLAY
+		-->
+		<div class="modal fade" id="invoice" tabindex="-1" role="dialog" aria-labelledby="invoiceLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="invoiceLabel">Your Order Breakdown</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th scope="col">Item</th>
+									<th scope="col">Cost</th>
+									<th scope="col">Total</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td id="invPizza"></td>
+									<td id="invPizzaCost"></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td id="invSauce"></td>
+									<td></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td id="invCrust"></td>
+									<td id="invCrustCost"></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td id="invCheese"></td>
+									<td id="invCheeseCost"></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td id="invMeat"></td>
+									<td id="invMeatCost"></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td id="invVeg"></td>
+									<td id="invVegCost"></td>
+									<td></td>
+								</tr>
+								<tr>
+									<td>Total:</td>
+									<td></td>
+									<td id="invTotal"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>	
+		
+		
+		
+		
+		
+		<div class="modal fade" id="rules" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title" id="exampleModalLabel">Nice try.</h5>
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<div class="modal-body">
+						You must select size, crust, sauce and cheese to place an order.
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+		<!--
+			TOP PRICE BAR
+		-->
+		<div class="nav price-bar justify-content-center fixed-top" id="price-bar">
+			<h3 id="price" class="text-white">Current Price: $<h3 id="curPrice" class="text-white"></h3></h3>
+		</div>
+		
+	
+	
+	
+		<!--
+			FORM BEGIN
+		-->
+		<div class="container">
+			<form id="pizzaForm">
+				<div class="container container-fluid align-center bg-light my-5 p-3 main-container">
+					<div class="row px-3">
+						<div class="column col-sm-6 pt-1">
+							<fieldset class="form-group">
+								<legend>Size Us Up:&nbsp;<span class="badge badge-secondary" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Personal Pizza: $6.00 <br />Medium Pizza: $10.00 <br />Large Pizza: $14.00 <br />Ex-Large Pizza: $16.00" data-html="true">$</span></legend>
+								<div class="form-check">
+									<label class="form-check-label">
+									<input type="radio" class="form-check-input" name="size" id="sizePersonal" value="Personal">
+									Personal
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+									<input type="radio" class="form-check-input" name="size" id="sizeMedium" value="Medium">
+									Medium
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+									<input type="radio" class="form-check-input" name="size" id="sizeLarge" value="Large">
+									Large
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+									<input type="radio" class="form-check-input" name="size" id="sizeXLarge" value="Extra Large">
+									Extra-Large
+									</label>
+								</div>
+							</fieldset>
+						</div>
+						<div class="column col-sm-6 pt-1">
+							<legend>Nice to Meat You:&nbsp;<span class="badge badge-secondary" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="bottom" data-content="$1.00 each<br />First one's on us!" data-html="true">$</span></legend>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" class="form-check-input" name="meat" id="meatPep" value="Pepperoni">
+									Pepperoni
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" class="form-check-input" name="meat" id="meatSausage" value="Sausage">
+									Sausage
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" class="form-check-input" name="meat" id="meatCadBac" value="Canadian Bacon">
+									Canadian Bacon
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" class="form-check-input" name="meat" id="meatBeef" value="Ground Beef">
+									Ground Beef
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" class="form-check-input" name="meat" id="meatAnchovy" value="Anchovies">
+									Anchovy
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" class="form-check-input" name="meat" id="meatChicken" value="Chicken">
+									Chicken
+								</label>
+							</div>
+						</div>
+					</div>
+					<div class="row px-3">
+						<div class="column col-sm-6 pt-1">
+							<fieldset class="form-group">
+								<legend>Say Cheese:&nbsp;<span class="badge badge-secondary" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Extra Cheese: $3.00 extra." data-html="true">$</span></legend>
+								<div class="form-check">
+									<label class="form-check-label">
+									<input type="radio" class="form-check-input" name="cheese" id="cheeseReg" value="Regular Cheese">
+									Regular
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+									<input type="radio" class="form-check-input" name="cheese" id="cheeseEx" value="Extra Cheese">
+									Extra Cheese
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+									<input type="radio" class="form-check-input" name="cheese" id="cheeseNone" value="No Cheese">
+									No Cheese
+									</label>
+								</div>
+							</fieldset>
+						</div>
+						<div class="column col-sm-6 pt-1">
+							<fieldset class="form-group">
+								<legend>Crust is a Must:&nbsp;<span class="badge badge-secondary" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Cheese Stuffed Crust: $3.00 extra." data-html="true">$</span></legend>
+								<div class="form-check">
+									<label class="form-check-label">
+									<input type="radio" class="form-check-input" name="crust" id="crustPlain" value="Plain Crust">
+									Plain Crust
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+									<input type="radio" class="form-check-input" name="crust" id="crustGar" value="Garlic Butter Crust">
+									Garlic Butter Crust
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+									<input type="radio" class="form-check-input" name="crust" id="crustStuffed" value="Cheese Stuffed Crust">
+									Cheese Stuffed Crust
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+									<input type="radio" class="form-check-input" name="crust" id="crustSpicy" value="Spicy Crust">
+									Spicy Crust
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+									<input type="radio" class="form-check-input" name="crust" id="crustHouse" value="House Special Crust">
+									House Special Crust
+									</label>
+								</div>
+							</fieldset>
+						</div>
+					</div>
+					<div class="row px-3">
+						<div class="column col-sm-6 pt-1">
+							<fieldset class="form-group">
+								<legend>Get Saucy:</legend>
+								<div class="form-check">
+									<label class="form-check-label">
+									<input type="radio" class="form-check-input" name="sauce" id="sauceMar" value="Marinara">
+									Marinara sauce
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+									<input type="radio" class="form-check-input" name="sauce" id="sauceWhite" value="White">
+									White sauce
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+									<input type="radio" class="form-check-input" name="sauce" id="sauceBBQ" value="Barbeque">
+									Barbeque sauce
+									</label>
+								</div>
+								<div class="form-check">
+									<label class="form-check-label">
+									<input type="radio" class="form-check-input" name="sauce" id="sauceNone" value="No">
+									No Sauce
+									</label>
+								</div>
+							</fieldset>
+						</div>
+						<div class="column col-sm-6 pt-1">
+							<legend>Veg Out:&nbsp;<span class="badge badge-secondary" data-trigger="hover" data-container="body" data-toggle="popover" data-placement="bottom" data-content="$1.00 each<br />First one's on us!" data-html="true">$</span></legend>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" class="form-check-input" name="veg" id="vegTom" value="Tomatoes">
+									Tomatoes
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" class="form-check-input" name="veg" id="vegOnion" value="Onions">
+									Onions
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" class="form-check-input" name="veg" id="vegOlive" value="Olives">
+									Olives
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" class="form-check-input" name="veg" id="vegPep" value="Green Peppers">
+									Green Peppers
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" class="form-check-input" name="veg" id="vegMushroom" value="Mushrooms">
+									Mushrooms
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" class="form-check-input" name="veg" id="vegPineapple" value="Pineapple">
+									Pineapple
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" class="form-check-input" name="veg" id="vegSpinach" value="Spinach">
+									Spinach
+								</label>
+							</div>
+							<div class="form-check">
+								<label class="form-check-label">
+									<input type="checkbox" class="form-check-input" name="veg" id="vegJala" value="Jalapeno">
+									Jalapeno
+								</label>
+							</div>
+						</div>
+					</div>
+				</div>
+			</form>
+			<div class="row justify-content-center pb-5 mb-2">
+				<button type="button" onClick="preModal()" class="btn btn-light" id="submit">Place Order</button>
+			</div>
+		</div>
+	
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>	
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>
+
+
+	<!--
+		SHOW PRICE BAR ON PIZZA SELECT
+	-->
+	<script>
+		$(document).ready(function() {
+			$("input[name$='size']").click(function() {
+				$(".price-bar").css('visibility', 'visible');
+			});
+		});
+	</script>
+	<!--
+		CALCULATE RUNNING TOTAL AND DISPLAY IN PRICE BAR
+	-->	
+	<script language="JavaScript">
+		var form = document.getElementById('pizzaForm');
+		var total = 0;
+		var totalDisp = document.getElementById('curPrice');
+		form.onchange = priceUpdate;
+		//Calculate price and display
+		function priceUpdate() {
+			//Determine price of size
+			if(document.getElementById("sizePersonal").checked){
+				total = 6;
+			} else if (document.getElementById("sizeMedium").checked){
+				total = 10;
+			} else if (document.getElementById("sizeLarge").checked){
+				total = 14;
+			} else if (document.getElementById("sizeXLarge").checked){
+				total = 16;
+			}
+			
+			//determine price of meats
+			var meats = document.getElementsByName('meat');
+			var meatCount = 0;
+			for(var i=0; i < meats.length; i++) {
+				if(meats[i].checked == true) {
+					meatCount++;
+				};
+			};
+			meatCount = Math.max(0,meatCount-1);
+			total = total + meatCount;
+			
+			
+			//determine price of cheese
+			if(document.getElementById("cheeseEx").checked){
+				total = total + 3;
+			}
+			
+			//determine price of crust
+			if(document.getElementById("crustStuffed").checked){
+				total = total + 3;
+			}
+			
+			//determine price of veggies
+			var veggies = document.getElementsByName('veg');
+			var vegCount = 0;
+			for(var i=0; i < veggies.length; i++) {
+				if(veggies[i].checked == true) {
+					vegCount++;
+				};
+			};
+			vegCount = Math.max(0,vegCount-1);
+			total = total + vegCount;
+			
+			
+			//push total to price bar
+			totalDisp.innerHTML = total + ".00";
+			
+			//update invoice modal info
+			//calculate pizza size / cost
+			var sizeString;
+			var sizeCost;
+			var size = document.getElementsByName("size");
+			for(var i=0; i < size.length; i++) {
+				if(size[i].checked){
+					sizeString = size[i].value + " Pizza";
+					sizeCost = 
+						(size[i].value == "Personal") ? "$6.00" : 
+						(size[i].value == "Medium") ? "$10.00" :
+						(size[i].value == "Large") ? "$14.00" :
+						(size[i].value == "Extra Large") ? "$16.00" : 
+						"";
+				}
+			}
+			document.getElementById("invPizza").innerHTML = sizeString;
+			document.getElementById("invPizzaCost").innerHTML = sizeCost;
+			
+			
+			//delineate sauce choice
+			var sauceString;
+			var sauce = document.getElementsByName("sauce");
+			for(var i=0; i < sauce.length; i++) {
+				if(sauce[i].checked){
+					sauceString = sauce[i].value + " Sauce";
+				}
+			}
+			document.getElementById("invSauce").innerHTML = sauceString;			
+			
+			
+			//calculate pizza crust / cost
+			var crustString;
+			var crustCost;
+			var crust = document.getElementsByName("crust");
+			for(var i=0; i < crust.length; i++) {
+				if(crust[i].checked){
+					crustString = crust[i].value;
+					crustCost = 
+						(crust[i].value == "Cheese Stuffed Crust") ? "$3.00" : 
+						"";
+				}
+			}
+			document.getElementById("invCrust").innerHTML = crustString;
+			document.getElementById("invCrustCost").innerHTML = crustCost;
+			
+			
+			//calculate cheese / cost
+			var cheeseString;
+			var cheeseCost;
+			var cheese = document.getElementsByName("cheese");
+			for(var i=0; i < cheese.length; i++) {
+				if(cheese[i].checked){
+					cheeseString = cheese[i].value;
+					cheeseCost = 
+						(cheese[i].value == "Extra Cheese") ? "$3.00" : 
+						"";
+				}
+			}
+			document.getElementById("invCheese").innerHTML = cheeseString;
+			document.getElementById("invCheeseCost").innerHTML = cheeseCost;
+		
+		
+			//calculate meat / cost
+			var meatString = "";
+			var meatCost;
+			var meat = document.getElementsByName("meat");
+			for(var i = 0; i < meat.length; i++) {
+				if(meat[i].checked) {
+					meatString = (meatString == "") ? "" : meatString + ", ";
+					meatString = meatString + meat[i].value;
+				}
+			}
+			if(meatString ==""){
+				meatString = "No Meat";
+			}
+			document.getElementById("invMeat").innerHTML = meatString;
+			document.getElementById("invMeatCost").innerHTML = (meatCount != 0) ? "$" + meatCount + ".00" : "";
+	
+
+
+			//calculate veggies / cost
+			var vegString = "";
+			var vegCost;
+			var veg = document.getElementsByName("veg");
+			for(var i = 0; i < veg.length; i++) {
+				if(veg[i].checked) {
+					vegString = (vegString == "") ? "" : vegString + ", ";
+					vegString = vegString + veg[i].value;
+				}
+			}
+			if(vegString ==""){
+				vegString = "No Veggies";
+			}
+			document.getElementById("invVeg").innerHTML = vegString;
+			document.getElementById("invVegCost").innerHTML = (vegCount != 0) ? "$" + vegCount + ".00" : "";
+
+			//display total
+			invTotal.innerHTML = "$" + total + ".00";
+		
+		};
+		
+		
+		//validate complete form
+		function preModal(){
+			//test for size selection
+			var size = document.getElementsByName("size");
+			var sizeTrue;
+			for(i = 0; i < size.length; i++){
+				if(size[i].checked){
+					sizeTrue = 1;
+				}
+			}
+			
+			//test for cheese selection
+			var cheese = document.getElementsByName("cheese");
+			var cheeseTrue;
+			for(i = 0; i < cheese.length; i++){
+				if(cheese[i].checked){
+					cheeseTrue = 1;
+				}
+			}
+			
+			//test for crust selection
+			var crust = document.getElementsByName("crust");
+			var crustTrue;
+			for(i = 0; i < crust.length; i++){
+				if(crust[i].checked){
+					crustTrue = 1;
+				}
+			}
+			
+			//test for sauce selection
+			var sauce = document.getElementsByName("sauce");
+			var sauceTrue;
+			for(i = 0; i < sauce.length; i++){
+				if(sauce[i].checked){
+					sauceTrue = 1;
+				}
+			}			
+
+			//open modal if form complete, else open modal alerting user of rules
+			if(sizeTrue && cheeseTrue && crustTrue && sauceTrue){
+				$('#invoice').modal()
+			} else {
+				$('#rules').modal()
+			}
+		}
+	</script>
+	<script>
+	$(document).ready(function(){
+		$('[data-toggle="popover"]').popover();   
+	});
+	</script>
+	
+	</body>
+</html>
